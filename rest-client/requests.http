@@ -1,12 +1,22 @@
 @baseUrl = http://localhost:3000
+@jwtToken = {{authLogin.response.body.accessToken}}
 
-### Auth login
+### Auth login   CHECKAR SE ESTÁ FUNCIONANDO, AULA 239
 # @name authLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@mail.com",
+  "password": "safwav"
+}
 
 
 ### Read one user
 # @name readOneUser
 GET {{baseUrl}}/user/868
+Authorization: Bearer {{jwtToken}}
+
 
 ### Create user
 # @name createUser
@@ -15,8 +25,9 @@ Content-Type: application/json
 
 {
   "name": "Arthur",
-  "email": "user@mail.com",
-  "password": "safwav"
+  "email": "user1@mail.com",
+  "password": "123456"
 }
 
 
+Authorization: Bearer {{jwtToken}}

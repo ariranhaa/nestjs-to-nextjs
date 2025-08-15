@@ -1,7 +1,7 @@
-import { Body, ConflictException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from 'src/common/hashing/hashing.service';
 
@@ -12,6 +12,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private readonly hashingService: HashingService,
   ) {}
+
   async create(dto: CreateUserDto) {
     const exists = await this.userRepository.exists({
       where: {
@@ -31,9 +32,18 @@ export class UserService {
     };
 
     const created = await this.userRepository.save(newUser);
-
     return created;
-    //Fazer hash de senha
-    //Salvar na base de dados
+  }
+
+  findByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
+  }
+
+  findById(id: string) {
+    return this.userRepository.findOneBy({ id });
+  }
+
+  save(user: User) {
+    return this.userRepository.save(user);
   }
 }
