@@ -1,7 +1,9 @@
+import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -23,7 +25,7 @@ export class Post {
   excerpt: string;
 
   @Column({ nullable: true })
-  coverImgUrl: string;
+  coverImageUrl: string;
 
   @Column({ default: false })
   published: boolean;
@@ -35,4 +37,6 @@ export class Post {
   updatedAt: Date;
 
   // Many to One <- authorId <- FK para User
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  author: User;
 }
